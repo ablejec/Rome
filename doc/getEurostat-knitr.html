@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>HowTo Get data from the EUROSTAT</title>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<h1>HowTo Get data from the EUROSTAT</h1>
+
+<h2>Author: A. Blejec</h2>
+
+<h2>Introduction</h2>
+
+<p>To make reproducible reports from the EUROSTAT data, I will explore
+the possibility to download data from their repository. They provide data in different formats, with footnotes and labels included or not included. The most promising for automatic retreival is the so called <strong>TSV</strong>  format which is in fact tab separated file. This file is included in the \file{.zip} or \file{.gz} file. See the \href{<a href="http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=read_me.pdf">http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=read_me.pdf</a>}
+{readme file}.</p>
+
+<h2>Finding the file name</h2>
+
+<p>We will explore it later.</p>
+
+<h2>Get the data</h2>
+
+<p>Asumming that we have the desired file code, we can get it by composing the
+URL:</p>
+
+<pre><code class="r">fcode &lt;- &quot;tps00001&quot;
+# fcode &lt;- &#39;ei_bsco_m&#39; fcode &lt;- &#39;nama_gdp_k&#39;
+lfn &lt;- paste(fcode, &quot;.tsv&quot;, sep = &quot;&quot;)
+upre &lt;- &quot;http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=data/&quot;
+upost &lt;- &quot;.tsv.gz&quot;
+furl &lt;- paste(upre, fcode, upost, sep = &quot;&quot;)
+furl
+</code></pre>
+
+<pre><code>## [1] &quot;http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=data/tps00001.tsv.gz&quot;
+</code></pre>
+
+<pre><code class="r">temp &lt;- tempfile()
+download.file(furl, temp)
+first &lt;- readLines(temp, 1)
+data &lt;- read.table(gzfile(temp), sep = &quot;\t&quot;, header = TRUE, row.names = 1, 
+    na.strings = &quot;: &quot;)
+unlink(temp)
+</code></pre>
+
+<p>Description</p>
+
+<pre><code class="r">first
+</code></pre>
+
+<pre><code>## [1] &quot;indic_de,geo\\time\t2003 \t2004 \t2005 \t2006 \t2007 \t2008 \t2009 \t2010 \t2011 \t2012 \t2013 \t2014 &quot;
+</code></pre>
+
+<pre><code class="r">first &lt;- strsplit(first, &quot;\t&quot;)[[1]]
+colNames &lt;- first[-1]
+units &lt;- strsplit(first[1], &quot;\\\\&quot;)[[1]][1]
+colVar &lt;- strsplit(first[1], &quot;\\\\&quot;)[[1]][2]
+units &lt;- strsplit(units, &quot;,&quot;)[[1]]
+units
+</code></pre>
+
+<pre><code>## [1] &quot;indic_de&quot; &quot;geo&quot;
+</code></pre>
+
+<pre><code class="r">colVar
+</code></pre>
+
+<pre><code>## [1] &quot;time&quot;
+</code></pre>
+
+<pre><code class="r">colNames
+</code></pre>
+
+<pre><code>##  [1] &quot;2003 &quot; &quot;2004 &quot; &quot;2005 &quot; &quot;2006 &quot; &quot;2007 &quot; &quot;2008 &quot; &quot;2009 &quot; &quot;2010 &quot;
+##  [9] &quot;2011 &quot; &quot;2012 &quot; &quot;2013 &quot; &quot;2014 &quot;
+</code></pre>
+
+<pre><code class="r">attr(data, &quot;units&quot;) &lt;- units
+attr(data, &quot;colVar&quot;) &lt;- colVar
+attr(data, &quot;colNames&quot;) &lt;- colNames
+</code></pre>
+
+<p>Show the data structure</p>
+
+<pre><code class="r">dim(data)
+</code></pre>
+
+<pre><code>## [1] 43 12
+</code></pre>
+
+<pre><code class="r">dimnames(data)
+</code></pre>
+
+<pre><code>## [[1]]
+##  [1] &quot;JAN,AL&quot;   &quot;JAN,AT&quot;   &quot;JAN,BA&quot;   &quot;JAN,BE&quot;   &quot;JAN,BG&quot;   &quot;JAN,CH&quot;  
+##  [7] &quot;JAN,CY&quot;   &quot;JAN,CZ&quot;   &quot;JAN,DE&quot;   &quot;JAN,DK&quot;   &quot;JAN,EA17&quot; &quot;JAN,EA18&quot;
+## [13] &quot;JAN,EE&quot;   &quot;JAN,EL&quot;   &quot;JAN,ES&quot;   &quot;JAN,EU27&quot; &quot;JAN,EU28&quot; &quot;JAN,FI&quot;  
+## [19] &quot;JAN,FR&quot;   &quot;JAN,HR&quot;   &quot;JAN,HU&quot;   &quot;JAN,IE&quot;   &quot;JAN,IS&quot;   &quot;JAN,IT&quot;  
+## [25] &quot;JAN,LI&quot;   &quot;JAN,LT&quot;   &quot;JAN,LU&quot;   &quot;JAN,LV&quot;   &quot;JAN,ME&quot;   &quot;JAN,MK&quot;  
+## [31] &quot;JAN,MT&quot;   &quot;JAN,NL&quot;   &quot;JAN,NO&quot;   &quot;JAN,PL&quot;   &quot;JAN,PT&quot;   &quot;JAN,RO&quot;  
+## [37] &quot;JAN,RS&quot;   &quot;JAN,SE&quot;   &quot;JAN,SI&quot;   &quot;JAN,SK&quot;   &quot;JAN,TR&quot;   &quot;JAN,UK&quot;  
+## [43] &quot;JAN,XK&quot;  
+## 
+## [[2]]
+##  [1] &quot;X2003&quot; &quot;X2004&quot; &quot;X2005&quot; &quot;X2006&quot; &quot;X2007&quot; &quot;X2008&quot; &quot;X2009&quot; &quot;X2010&quot;
+##  [9] &quot;X2011&quot; &quot;X2012&quot; &quot;X2013&quot; &quot;X2014&quot;
+</code></pre>
+
+<p>Number of rows and columns for later use</p>
+
+<pre><code class="r">nRows &lt;- dim(data)[1]
+nCols &lt;- dim(data)[2]
+</code></pre>
+
+<p>Structure of the first few</p>
+
+<pre><code class="r">str(data[, 1:min(5, nCols)])
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    43 obs. of  5 variables:
+##  $ X2003: Factor w/ 43 levels &quot;10142362 &quot;,&quot;10192649 &quot;,..: 14 41 20 3 40 38 37 2 42 31 ...
+##  $ X2004: Factor w/ 43 levels &quot;10116742 &quot;,&quot;10195347 &quot;,..: 14 41 20 3 40 38 37 2 42 31 ...
+##  $ X2005: Factor w/ 43 levels &quot;10097549 &quot;,&quot;10198855 &quot;,..: 14 41 20 3 40 38 37 2 42 31 ...
+##  $ X2006: num  3149143 8254298 3842650 10511382 7718750 ...
+##  $ X2007: Factor w/ 43 levels &quot;10066158 &quot;,&quot;10254233 &quot;,..: 14 42 20 4 39 38 40 2 41 31 ...
+</code></pre>
+
+<p>First few lines</p>
+
+<pre><code class="r">head(data[, 1:min(5, nCols)])
+</code></pre>
+
+<pre><code>##            X2003     X2004     X2005    X2006     X2007
+## JAN,AL  3102781   3119548   3134975   3149143  3152625 
+## JAN,AT  8100273   8142573   8201359   8254298  8282984 
+## JAN,BA 3830349 e 3837414 e 3842532 e  3842650  3844017 
+## JAN,BE 10355844  10396421  10445852  10511382 10584534 
+## JAN,BG  7845841   7801273   7761049   7718750 7572673 b
+## JAN,CH  7313853   7364148   7415102   7459128  7508739
+</code></pre>
+
+<h2>Clean the data</h2>
+
+<p>Some data contain labels and can be suffixed with a space. So we have to clean the data.</p>
+
+<pre><code class="r">X &lt;- data
+X &lt;- as.data.frame(apply(X, 2, function(x) as.numeric(sapply(x, FUN = function(u) gsub(&quot;[[:alpha:][:blank:]]&quot;, 
+    &quot;&quot;, u)))))
+dimnames(X)[[1]] &lt;- dimnames(data)[[1]]
+</code></pre>
+
+<p>Row names are structured, Composed as <code>unit,indicator,geo</code>.
+The structure is</p>
+
+<pre><code class="r">getUnit &lt;- function(x = data, id = 1) {
+    attr(x, &quot;units&quot;)[id]
+}
+getUnit(data, 1)
+</code></pre>
+
+<pre><code>## [1] &quot;indic_de&quot;
+</code></pre>
+
+<p>Show the structure</p>
+
+<pre><code class="r">str(X[, 1:min(5, nCols)])
+</code></pre>
+
+<pre><code>## &#39;data.frame&#39;:    43 obs. of  5 variables:
+##  $ X2003: num  3102781 8100273 3830349 10355844 7845841 ...
+##  $ X2004: num  3119548 8142573 3837414 10396421 7801273 ...
+##  $ X2005: num  3134975 8201359 3842532 10445852 7761049 ...
+##  $ X2006: num  3149143 8254298 3842650 10511382 7718750 ...
+##  $ X2007: num  3152625 8282984 3844017 10584534 7572673 ...
+</code></pre>
+
+<p>and first few lines</p>
+
+<pre><code class="r">head(X[, 1:min(5, nCols)])
+</code></pre>
+
+<pre><code>##           X2003    X2004    X2005    X2006    X2007
+## JAN,AL  3102781  3119548  3134975  3149143  3152625
+## JAN,AT  8100273  8142573  8201359  8254298  8282984
+## JAN,BA  3830349  3837414  3842532  3842650  3844017
+## JAN,BE 10355844 10396421 10445852 10511382 10584534
+## JAN,BG  7845841  7801273  7761049  7718750  7572673
+## JAN,CH  7313853  7364148  7415102  7459128  7508739
+</code></pre>
+
+<p>{
+Windows 7 x64 (build 7601) Service Pack 1 
+R version 3.0.2 (2013-09-25)
+Platform: x86_64-w64-mingw32/x64 (64-bit)</p>
+
+<p>locale:
+[1] LC_COLLATE=Slovenian_Slovenia.1250 
+[2] LC_CTYPE=Slovenian_Slovenia.1250<br/>
+[3] LC_MONETARY=Slovenian_Slovenia.1250
+[4] LC_NUMERIC=C<br/>
+[5] LC_TIME=Slovenian_Slovenia.1250    </p>
+
+<p>attached base packages:
+[1] stats     graphics  datasets  utils     grDevices base     </p>
+
+<p>other attached packages:
+[1] knitr_1.6</p>
+
+<p>loaded via a namespace (and not attached):
+[1] evaluate_0.5.5 formatR_0.10   stringr_0.6.2  tools_3.0.2<br/>
+Project path:\verb&#39; D:/_Y/R/Rome &#39;\
+Main file :\verb&#39; ../doc/getEurostat-knitr.Rnw &#39;</p>
+
+<p>Project files can be viewed by pasting this code to <strong><code>R</code></strong> console:\</p>
+
+<blockquote>
+<p>projectName &lt;-&ldquo;Rome&rdquo;;  mainFile &lt;-&ldquo;getEurostat-knitr&rdquo;</p>
+</blockquote>
+
+<pre><code class="r">commandArgs()
+library(tkWidgets)
+openPDF(file.path(dirname(getwd()),&quot;doc&quot;,
+paste(mainFile,&quot;PDF&quot;,sep=&quot;.&quot;)))
+viewVignette(&quot;viewVignette&quot;, projectName, #
+file.path(&quot;../doc&quot;,paste(mainFile,&quot;Rnw&quot;,sep=&quot;.&quot;)))
+#
+</code></pre>
+
+<p><code>Git Revision:</code> gitCommitterUnixDate \gitAbbrevHash{} (\gitCommitterDate)} \hfill \copyright A. Blejec\
+<code></code> gitReferences} \hfill \verb&#39;../doc/getEurostat-knitr.Rnw&#39;\</p>
+
+<p>}</p>
+
+</body>
+
+</html>

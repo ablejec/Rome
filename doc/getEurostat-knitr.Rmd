@@ -1,0 +1,225 @@
+
+
+
+
+
+
+
+
+
+
+
+```{r include=FALSE }
+render_markdown()
+opts_chunk$set(fig.path='./figs/bla',concordance=TRUE,tidy=TRUE)
+```
+
+
+
+
+
+
+# HowTo Get data from the EUROSTAT
+## Author: A. Blejec
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r Author:,echo=FALSE }
+###############################################
+##                                           ##
+## (c) Andrej Blejec (andrej.blejec```nib.si)  ##
+##                                           ##
+###############################################
+```
+```{r initialize,echo=FALSE,results='hide',message=FALSE }
+options(width=70)
+#library(Hmisc)
+#library(xlsReadWrite)
+```
+
+## Introduction
+
+To make reproducible reports from the EUROSTAT data, I will explore
+the possibility to download data from their repository. They provide data in different formats, with footnotes and labels included or not included. The most promising for automatic retreival is the so called **TSV**  format which is in fact tab separated file. This file is included in the \file{.zip} or \file{.gz} file. See the \href{http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=read_me.pdf}
+{readme file}.
+
+## Finding the file name
+
+We will explore it later.
+## Get the data
+
+Asumming that we have the desired file code, we can get it by composing the
+URL:
+
+```{r  }
+fcode <- "tps00001"
+#fcode <- "ei_bsco_m"
+#fcode <- "nama_gdp_k"
+lfn <- paste(fcode,".tsv",sep="")
+upre <- "http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=data/"
+upost <- ".tsv.gz"
+furl <-paste( upre,fcode,upost,sep="")
+furl
+```
+
+```{r  }
+temp <- tempfile()
+download.file(furl,temp)
+first <- readLines(temp,1)
+data <- read.table(gzfile(temp), sep="\t", header=TRUE, row.names=1,
+na.strings=": ")
+unlink(temp)
+```
+
+Description
+
+```{r  }
+first
+first <- strsplit(first,"\t")[[1]]
+colNames <- first[-1]
+units <- strsplit(first[1],"\\\\")[[1]][1]
+colVar <- strsplit(first[1],"\\\\")[[1]][2]
+units <- strsplit(units,",")[[1]]
+units
+colVar
+colNames
+attr(data,"units") <- units
+attr(data,"colVar") <- colVar
+attr(data,"colNames") <- colNames
+
+```
+Show the data structure
+
+```{r dimension }
+dim(data)
+dimnames(data)
+```
+
+Number of rows and columns for later use
+```{r  }
+nRows <- dim(data)[1]
+nCols <- dim(data)[2]
+```
+
+
+Structure of the first few
+```{r  }
+str(data[,1:min(5,nCols)])
+```
+
+First few lines
+
+```{r  }
+head(data[,1:min(5,nCols)])
+```
+## Clean the data
+
+Some data contain labels and can be suffixed with a space. So we have to clean the data.
+
+```{r  }
+X <- data
+X <- as.data.frame(
+apply(X, 2, function(x) as.numeric(sapply(x,
+FUN=function(u) gsub("[[:alpha:][:blank:]]","",u)))))
+dimnames(X)[[1]] <- dimnames(data)[[1]]
+```
+
+Row names are structured, Composed as `unit,indicator,geo`.
+The structure is
+
+```{r  }
+getUnit <- function(x=data,id=1) {
+attr(x,"units")[id]
+}
+getUnit(data,1)
+```
+
+
+Show the structure
+```{r  }
+str(X[,1:min(5,nCols)])
+```
+
+and first few lines
+
+```{r  }
+head(X[,1:min(5,nCols)])
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+```{r sessionInfo,results='asis',echo=FALSE }
+cat(win.version(),"\n")
+(sessionInfo())
+cat("Project path:\\verb'",dirname(getwd()),"'\\\\\n")
+mainFile <- commandArgs(trailingOnly = TRUE)
+#
+mainFilePath <- file.path("../doc", mainFile[1])
+cat("Main file :\\verb'", mainFilePath, "'\n")
+#
+mainFile <- strsplit(mainFile,'.',fixed=TRUE)[[1]][1]
+projectName <- rev((strsplit(dirname(getwd()), "/"))[[1]])[1]
+#
+```
+
+Project files can be viewed by pasting this code to **`R`** console:\\
+```{r projectFiles,echo=FALSE,results='asis' }
+cat('> projectName <-"',projectName,'"; ',sep="")
+cat(' mainFile <-"',mainFile,'"',sep="")
+#
+```
+
+```{r vignette,eval=FALSE }
+commandArgs()
+library(tkWidgets)
+openPDF(file.path(dirname(getwd()),"doc",
+paste(mainFile,"PDF",sep=".")))
+viewVignette("viewVignette", projectName, #
+file.path("../doc",paste(mainFile,"Rnw",sep=".")))
+#
+```
+
+
+
+`Git Revision: ` gitCommitterUnixDate \gitAbbrevHash{} (\gitCommitterDate)} \hfill \copyright A. Blejec\\
+` ` gitReferences} \hfill \verb'`r mainFilePath`'\\
+
+}
+
+```{r eval=FALSE,echo=FALSE }
+# getrootpath <- function() {
+# fp <- (strsplit(getwd(), "/"))[[1]]
+# file <- file.path(paste(fp[-length(fp)], collapse = "/"))
+# return(file)
+# }
+# fileName <- function(name="bla",ext="PDF") paste(name,ext,sep=".")
+```
+
+
+

@@ -1,0 +1,331 @@
+% -*- TeX:Rnw:UTF-8 -*-
+% ----------------------------------------------------------------
+% .R knitr file  ************************************************
+% ----------------------------------------------------------------
+%%
+% \VignetteIndexEntry{}
+% \VignetteDepends{}
+% \VignettePackage{}
+\documentclass[a4paper,12pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\usepackage{Sweave}
+
+
+%\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
+\input{abpkg}
+\input{abcmd}
+\input{abpage}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb}
+\usepackage{colortbl}
+
+\input{mysweave}
+
+
+\setkeys{Gin}{width=0.8\textwidth}  % set graphicx parameter
+\usepackage{lmodern}
+\input{abfont}
+
+% ----------------------------------------------------------------
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+%% Sweave settings for includegraphics default plot size (Sweave default is 0.8)
+%% notice this must be after begin{document}
+%%% \setkeys{Gin}{width=0.9\textwidth}
+% ----------------------------------------------------------------
+\title{HowTo Get data from the EUROSTAT}
+\author{A. Blejec}
+%\address{}%
+%\email{}%
+%
+%\thanks{}%
+%\subjclass{}%
+%\keywords{}%
+
+%\date{}%
+%\dedicatory{}%
+%\commby{}%
+\maketitle
+% ----------------------------------------------------------------
+%\begin{abstract}
+%
+%\end{abstract}
+% ----------------------------------------------------------------
+\tableofcontents
+
+\begin{Schunk}
+\begin{Soutput}
+Warning: package 'Hmisc' was built under R version 3.0.3
+Warning: package 'lattice' was built under R version 3.0.3
+\end{Soutput}
+\end{Schunk}
+
+\section{Introduction}
+
+To make reproducible reports from the EUROSTAT data, I will explore
+the possibility to download data from their repository. They provide data in different formats, with footnotes and labels included or not included. The most promising for automatic retreival is the so called \bold{TSV} format which is in fact tab separated file. This file is included in the \file{.zip} or \file{.gz} file.
+
+\section{Finding the file name}
+
+We will explore it later.
+
+\section{Get the data}
+
+Asumming that we have the desired file code, we can get it by composing the
+URL:
+
+\begin{Schunk}
+\begin{Sinput}
+> fcode <- "tps00001"
+> fcode <- "tps00025"  # Life expectancy at birth, by sex
+> # http://epp.eurostat.ec.europa.eu/portal/page/portal/product_details/dataset?p_product_code=tps00025
+> 
+> lfn <- paste(fcode, ".tsv", sep = "")
+> upre <- "http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=data/"
+> upost <- ".tsv.gz"
+> furl <- paste(upre, fcode, upost, sep = "")
+> furl
+\end{Sinput}
+\begin{Soutput}
+[1] "http://epp.eurostat.ec.europa.eu/NavTree_prod/everybody/BulkDownloadListing?file=data/tps00025.tsv.gz"
+\end{Soutput}
+\end{Schunk}
+
+\begin{Schunk}
+\begin{Sinput}
+> temp <- tempfile()
+> download.file(furl, temp)
+> data <- read.table(gzfile(temp), sep = "\t", header = TRUE, row.names = 1, 
++     na.strings = ": ")
+> unlink(temp)
+\end{Sinput}
+\end{Schunk}
+
+Show the data structure
+
+\begin{Schunk}
+\begin{Sinput}
+> str(data)
+\end{Sinput}
+\begin{Soutput}
+'data.frame':	96 obs. of  12 variables:
+ $ X2001: num  NA 81.7 NA 81.2 75.4 NA 83.2 81.4 78.5 81.4 ...
+ $ X2002: Factor w/ 60 levels "64.4 ","65.6 ",..: NA 53 NA 49 22 NA 59 48 39 50 ...
+ $ X2003: num  NA 81.5 NA 81.1 75.9 NA 83.2 81.2 78.6 81.3 ...
+ $ X2004: num  NA 82.1 NA 81.9 76.2 NA 83.8 81.8 79.1 81.9 ...
+ $ X2005: num  NA 82.2 NA 81.9 76.2 NA 84 80.8 79.2 82 ...
+ $ X2006: num  76 82.8 75.4 82.3 76.3 NA 84.2 82 79.9 82.4 ...
+ $ X2007: Factor w/ 70 levels "61.4 ","61.8 ",..: 32 65 23 62 30 NA 69 58 54 63 ...
+ $ X2008: num  76.7 83.3 76.3 82.6 77 NA 84.6 82.9 80.5 82.7 ...
+ $ X2009: num  76.7 83.2 76.3 82.8 77.4 NA 84.6 83.5 80.5 82.8 ...
+ $ X2010: num  NA 83.5 76 83 77.4 NA 84.9 83.9 80.9 83 ...
+ $ X2011: Factor w/ 71 levels "64.7 ","66.0 ",..: NA 63 NA 61 27 22 69 56 51 58 ...
+ $ X2012: Factor w/ 69 levels "66.1 ","66.6 ",..: NA 59 21 53 29 28 66 57 47 56 ...
+\end{Soutput}
+\end{Schunk}
+
+First few lines
+
+\begin{Schunk}
+\begin{Sinput}
+> head(data)
+\end{Sinput}
+\begin{Soutput}
+           X2001 X2002 X2003 X2004 X2005 X2006  X2007 X2008 X2009
+Y_LT1,F,AM    NA  <NA>    NA    NA    NA  76.0  76.8   76.7  76.7
+Y_LT1,F,AT  81.7 81.7   81.5  82.1  82.2  82.8  83.1   83.3  83.2
+Y_LT1,F,AZ    NA  <NA>    NA    NA    NA  75.4  75.5   76.3  76.3
+Y_LT1,F,BE  81.2 81.2   81.1  81.9  81.9  82.3  82.6   82.6  82.8
+Y_LT1,F,BG  75.4 75.5   75.9  76.2  76.2  76.3 76.6 b  77.0  77.4
+Y_LT1,F,BY    NA  <NA>    NA    NA    NA    NA   <NA>    NA    NA
+           X2010  X2011 X2012
+Y_LT1,F,AM    NA   <NA>  <NA>
+Y_LT1,F,AT  83.5  83.8  83.6 
+Y_LT1,F,AZ  76.0   <NA> 76.6 
+Y_LT1,F,BE  83.0 83.3 b 83.1 
+Y_LT1,F,BG  77.4  77.8  77.9 
+Y_LT1,F,BY    NA  76.9  77.8 
+\end{Soutput}
+\end{Schunk}
+
+\section{Clean the data}
+
+Some data contain labels and can be suffixed with a space. So we have to clean the data.
+
+\begin{Schunk}
+\begin{Sinput}
+> X <- data
+> X <- as.data.frame(apply(X, 2, function(x) as.numeric(sapply(x, FUN = function(u) gsub("[[:alpha:][:blank:]]", 
++     "", u)))))
+> dimnames(X)[[1]] <- dimnames(data)[[1]]
+\end{Sinput}
+\end{Schunk}
+
+Show the structure
+\begin{Schunk}
+\begin{Sinput}
+> str(X)
+\end{Sinput}
+\begin{Soutput}
+'data.frame':	96 obs. of  12 variables:
+ $ X2001: num  NA 81.7 NA 81.2 75.4 NA 83.2 81.4 78.5 81.4 ...
+ $ X2002: num  NA 81.7 NA 81.2 75.5 NA 83.2 81 78.7 81.3 ...
+ $ X2003: num  NA 81.5 NA 81.1 75.9 NA 83.2 81.2 78.6 81.3 ...
+ $ X2004: num  NA 82.1 NA 81.9 76.2 NA 83.8 81.8 79.1 81.9 ...
+ $ X2005: num  NA 82.2 NA 81.9 76.2 NA 84 80.8 79.2 82 ...
+ $ X2006: num  76 82.8 75.4 82.3 76.3 NA 84.2 82 79.9 82.4 ...
+ $ X2007: num  76.8 83.1 75.5 82.6 76.6 NA 84.4 82.1 80.2 82.7 ...
+ $ X2008: num  76.7 83.3 76.3 82.6 77 NA 84.6 82.9 80.5 82.7 ...
+ $ X2009: num  76.7 83.2 76.3 82.8 77.4 NA 84.6 83.5 80.5 82.8 ...
+ $ X2010: num  NA 83.5 76 83 77.4 NA 84.9 83.9 80.9 83 ...
+ $ X2011: num  NA 83.8 NA 83.3 77.8 76.9 85 83.1 81.1 83.2 ...
+ $ X2012: num  NA 83.6 76.6 83.1 77.9 77.8 84.9 83.4 81.2 83.3 ...
+\end{Soutput}
+\end{Schunk}
+
+and first few lines
+
+\begin{Schunk}
+\begin{Sinput}
+> head(X)
+\end{Sinput}
+\begin{Soutput}
+           X2001 X2002 X2003 X2004 X2005 X2006 X2007 X2008 X2009
+Y_LT1,F,AM    NA    NA    NA    NA    NA  76.0  76.8  76.7  76.7
+Y_LT1,F,AT  81.7  81.7  81.5  82.1  82.2  82.8  83.1  83.3  83.2
+Y_LT1,F,AZ    NA    NA    NA    NA    NA  75.4  75.5  76.3  76.3
+Y_LT1,F,BE  81.2  81.2  81.1  81.9  81.9  82.3  82.6  82.6  82.8
+Y_LT1,F,BG  75.4  75.5  75.9  76.2  76.2  76.3  76.6  77.0  77.4
+Y_LT1,F,BY    NA    NA    NA    NA    NA    NA    NA    NA    NA
+           X2010 X2011 X2012
+Y_LT1,F,AM    NA    NA    NA
+Y_LT1,F,AT  83.5  83.8  83.6
+Y_LT1,F,AZ  76.0    NA  76.6
+Y_LT1,F,BE  83.0  83.3  83.1
+Y_LT1,F,BG  77.4  77.8  77.9
+Y_LT1,F,BY    NA  76.9  77.8
+\end{Soutput}
+\end{Schunk}
+\subsection{Parse meta data}
+
+Meta data are encoded in the first column, used as the row names. We can parse the data.
+
+\begin{Schunk}
+\begin{Sinput}
+> meta <- sapply(dimnames(X)[[1]], strsplit, split = ",")
+> meta <- matrix(unlist(meta), ncol = length(meta[[1]]), byrow = TRUE)
+> dimnames(meta)[[1]] <- dimnames(X)[[1]]
+> head(meta)
+\end{Sinput}
+\begin{Soutput}
+           [,1]    [,2] [,3]
+Y_LT1,F,AM "Y_LT1" "F"  "AM"
+Y_LT1,F,AT "Y_LT1" "F"  "AT"
+Y_LT1,F,AZ "Y_LT1" "F"  "AZ"
+Y_LT1,F,BE "Y_LT1" "F"  "BE"
+Y_LT1,F,BG "Y_LT1" "F"  "BG"
+Y_LT1,F,BY "Y_LT1" "F"  "BY"
+\end{Soutput}
+\end{Schunk}
+
+Select specific country data
+
+\begin{Schunk}
+\begin{Sinput}
+> countries <- c("SI", "EU28", "IT")
+> filter <- meta[, 3] %in% countries
+> Y <- X[filter, ]
+> time <- as.numeric(gsub("X", "", dimnames(X)[[2]]))
+\end{Sinput}
+\end{Schunk}
+
+\begin{Schunk}
+\begin{Sinput}
+> ylim <- c(50, max(Y, na.rm = TRUE) * 1.1)
+> plot(time, time, ylim = ylim, xlim = range(time), ylab = "")
+> for (i in 1:dim(Y)[1]) lines(time, Y[i, ], col = i, type = "b")
+\end{Sinput}
+
+\includegraphics[width=\maxwidth]{./figs/blaunnamed-chunk-11} \end{Schunk}
+
+
+%<<child='encChild2.Rnw'>>=
+%@
+% ----------------------------------------------------------------
+%\bibliographystyle{chicago}
+%\addcontentsline{toc}{section}{\refname}
+%\bibliography{ab-general}
+%--------------------------------------------------------------
+
+%\clearpage
+%\appendix
+%\phantomsection\addcontentsline{toc}{section}{\appendixname}
+%\section{\R\ funkcije}
+%\input{}
+
+\clearpage
+\section*{SessionInfo}
+{\small
+Windows 7 x64 (build 7601) Service Pack 1 
+\begin{itemize}\raggedright
+  \item R version 3.0.2 (2013-09-25), \verb|x86_64-w64-mingw32|
+  \item Locale: \verb|LC_COLLATE=Slovenian_Slovenia.1250|, \verb|LC_CTYPE=Slovenian_Slovenia.1250|, \verb|LC_MONETARY=Slovenian_Slovenia.1250|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=Slovenian_Slovenia.1250|
+  \item Base packages: base, datasets, graphics, grDevices,
+    grid, methods, splines, stats, utils
+  \item Other packages: Formula~1.1-1, Hmisc~3.14-4,
+    knitr~1.6, lattice~0.20-27, survival~2.37-7
+  \item Loaded via a namespace (and not attached):
+    cluster~1.14.4, evaluate~0.5.5, formatR~0.10,
+    latticeExtra~0.6-26, RColorBrewer~1.0-5, stringr~0.6.2,
+    tools~3.0.2
+\end{itemize}
+Project path:\verb' D:/_Y/R/Rome '\\
+Main file :\verb' ../doc/getEurostat.Rnw '
+
+
+\subsection*{View as vignette}
+Project files can be viewed by pasting this code to \R\ console:\\
+\begin{Schunk}
+\begin{Sinput}
+> projectName <-"Rome";  mainFile <-"getEurostat"
+
+\end{Sinput}
+\end{Schunk}
+\begin{Schunk}
+\begin{Sinput}
+> commandArgs()
+> library(tkWidgets)
+> openPDF(file.path(dirname(getwd()),"doc",
+> paste(mainFile,"PDF",sep=".")))
+> viewVignette("viewVignette", projectName, #
+> file.path("../doc",paste(mainFile,"Rnw",sep=".")))
+> #
+\end{Sinput}
+\end{Schunk}
+
+\vfill \hrule \vspace{3pt} \footnotesize{
+%Revision \SVNId\hfill (c) A. Blejec%\input{../_COPYRIGHT.}
+%\SVNRevision ~/~ \SVNDate
+\noindent
+\texttt{Git Revision: \gitCommitterUnixDate \gitAbbrevHash{} (\gitCommitterDate)} \hfill \copyright A. Blejec\\
+\texttt{ \gitReferences} \hfill \verb'../doc/getEurostat.Rnw'\\
+
+}
+
+
+
+
+\end{document}
+% ----------------------------------------------------------------

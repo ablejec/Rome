@@ -1,0 +1,149 @@
+% -*- TeX:Rnw -*-
+% ----------------------------------------------------------------
+% .R Sweave file  ************************************************
+% ----------------------------------------------------------------
+%%
+% \VignetteIndexEntry{}
+% \VignetteDepends{}
+% \VignettePackage{}
+%\documentclass[a4paper,12pt]{article}
+\usepackage[english,slovene]{babel}
+\selectlanguage{slovene}
+\usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
+%\input{abpkgB}
+%\input{abpkg}
+\input{abBeam}
+\input{abcmd}
+%\input{abpage}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb}
+\usepackage{colortbl}
+\usepackage{pdfpages}
+\usepackage{animate}
+\usepackage{tikz} % for graphics opacity
+%\usepackage{media9}
+\usepackage{movie15}
+\input{mysweaveB}
+\newcommand{\BV}{}
+\newcommand{\EV}{}
+\newcommand{\myemph}[1]{{\color{Sgreen} \textit{#1}}}
+\usepackage[overlay,absolute]{textpos}
+
+
+
+%%%%%% colors
+\definecolor{UniBlue}{RGB}{83,121,170}
+\definecolor{UniGreen}{RGB}{28,155,36}
+\definecolor{UniGreen}{RGB}{46,125,45}
+
+\definecolor{myBg}{RGB}{0,0,0}
+
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{structure}{fg=UniGreen}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% define language and select crop
+%% each report should be run twice - check chapter tittles.
+%%
+    \newtoggle{english}   % initially false
+%% Set language
+    \toggletrue{english}
+
+%%
+  \providecommand{\eng}[1]{\iftoggle{english} {#1} {  }}
+  \providecommand{\slo}[1]{\iftoggle{english} {  } {#1}}
+%% nadomesti z: \iflanguage{english}{English}{slovensko}
+%%    \providecommand{\eng}[1]{\iflanguage{english} {#1} {  }}
+%%    \providecommand{\slo}[1]{\iflanguage{english} {  } {#1}}
+
+
+\newcommand{\mysection}[1]{
+\setbeamercolor{background canvas}{bg=myBg}
+%%\setbeamercolor{normal text}{fg=white}
+\begin{frame}
+\frametitle{}
+\begin{center}
+\textcolor{white}{\Huge{#1}}
+\end{center}
+\end{frame}
+\setbeamercolor{background canvas}{bg=}
+%%\setbeamercolor{normal text}{fg=}
+%\section{#1}
+}
+%
+\newcommand{\slidefile}{slides-eda-2.pdf}
+\newcommand{\ipdf}[2][0.7]{
+    \setbeamercolor{background canvas}{bg=}
+    \setkeys{Gin}{width=#1\textwidth}
+    \vspace{2cm}%
+
+    \includepdf[pages=#2]{./slides/\slidefile}
+    \setkeys{Gin}{width=0.7\textwidth}
+}
+%%
+
+%%%%%%
+% ----------------------------------------------------------------
+\title[Reproducible]
+{\eng{Introduction to GLM}
+\slo{Uvod v GLM}}
+\author[A. Blejec]{\large{Andrej Blejec} \\[12pt]
+\small{andrej.blejec@nib.si}\\[12pt]
+  {\small{
+\eng{National Institute of Biology}
+\slo{Nacionalni inštitut za biologijo %\includegraphics[width=0.1\textwidth]{./slides/niblogo.pdf}}}} \\[2pt]
+{\tiny{\eng{and}\slo{in}}} \\[2pt]
+{\small{
+\eng{Statistical Society of Slovenia}
+\slo{
+Statistično društvo Slovenije}}}\\[12pt]
+%
+%\slo{\tiny{Javno predavanje ob izvolitvi v naziv redni profesor}}
+\vfill
+\slo{{}}
+\eng{{}}}
+
+%\institute{Nacionalni inštitut za biologijo \and Univerza v Ljubljani, BF}
+%\address{}%
+%\email{}%
+%
+%\thanks{}%
+%\subjclass{}%
+%\keywords{}%
+
+
+%\slo{\date{3. oktober 2013}}%
+\slo{\date{5. 6. 2014}}%
+
+\eng{\date{June 5, 2014}}
+%\dedicatory{}%
+%\commby{}%
+
+\begin{document}
+\mode<article> {\maketitle}
+\mode<presentation> {\frame{\titlepage}}
+\tableofcontents
+% ----------------------------------------------------------------
+\begin{abstract}
+ 
+\end{abstract}
+% -------------------------------------------------------------
+%% Sweave settings for includegraphics default plot size (Sweave default is 0.8)
+%% notice this must be after begin{document}
+% \setkeys{Gin}{width=0.9\textwidth}
+\setkeys{Gin}{width=0.7\textwidth}
+% ----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+% ----------------------------------------------------------------
+\bibliographystyle{amsplain}
+\bibliography{ab-general}

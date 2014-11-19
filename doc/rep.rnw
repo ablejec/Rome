@@ -1,0 +1,136 @@
+% -*- TeX:Rnw -*-
+% ----------------------------------------------------------------
+% .R Sweave file  ************************************************
+% ----------------------------------------------------------------
+%%
+% \VignetteIndexEntry{}
+% \VignetteDepends{}
+% \VignettePackage{}
+%\documentclass[a4paper,12pt]{article}
+\usepackage[slovene]{babel}
+%\usepackage{babel}
+\usepackage[utf8]{inputenc} %% must be here for Sweave encoding check
+%\input{abpkgB}
+%\input{abpkg}
+\input{abBeam}
+\input{abcmd}
+%\input{abpage}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb}
+\usepackage{colortbl}
+\usepackage{Sweave}
+\input{mysweaveB}
+\newcommand{\BV}{}
+\newcommand{\EV}{}
+\newcommand{\myemph}[1]{{\color{Sgreen} \textit{#1}}}
+\usepackage[overlay,absolute]{textpos}
+
+<<include=FALSE>>=
+render_sweave()
+opts_chunk$set(fig.path='./figs/bla',concordance=TRUE)
+@
+
+%%%%%% colors
+\definecolor{UniBlue}{RGB}{83,121,170}
+\definecolor{UniGreen}{RGB}{28,155,36}
+\definecolor{UniGreen}{RGB}{46,125,45}
+<<include=FALSE>>=
+UniGreen <- rgb(46/256,125/256,45/256)
+
+@
+\definecolor{myBg}{RGB}{0,0,0}
+
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{structure}{fg=UniGreen}
+\newcommand{\mysection}[1]{
+\setbeamercolor{background canvas}{bg=myBg}
+%%\setbeamercolor{normal text}{fg=white}
+\begin{frame}
+\frametitle{}
+\begin{center}
+\textcolor{white}{\Huge{#1}}
+\end{center}
+\end{frame}
+\setbeamercolor{background canvas}{bg=}
+%%\setbeamercolor{normal text}{fg=}
+%\section{#1}
+}
+%
+\newcommand{\slidefile}{slides-eda-2.pdf}
+\newcommand{\ipdf}[2][0.7]{
+    \setbeamercolor{background canvas}{bg=}
+    \setkeys{Gin}{width=#1\textwidth}
+    \vspace{2cm}%
+
+    \includepdf[pages=#2]{./slides/\slidefile}
+    \setkeys{Gin}{width=0.7\textwidth}
+}
+%
+% ----------------------------------------------------------------
+\title{Reproducible documents}
+\author[A. Blejec]{\large{Andrej Blejec}\\[12pt]
+\small{andrej.blejec@nib.si}\\[12pt]
+  {\small{
+National Institute of Biology}
+%\includegraphics[width=0.1\textwidth]{./slides/niblogo.pdf} 
+\\[2pt]
+\tiny{and} \\[2pt]
+\small{
+Statistical Society of Slovenia}\\[12pt]
+%
+%\slo{\tiny{Javno predavanje ob izvolitvi v naziv redni profesor}}
+}
+}
+
+
+
+%\address{}%
+%\email{}%
+%
+%\thanks{}%
+%\subjclass{}%
+%\keywords{}%
+
+%\date{}%
+%\dedicatory{}%
+%\commby{}%
+\begin{document}
+\mode<article> {\maketitle}
+\mode<presentation> {\frame{\titlepage}}
+\tableofcontents
+% ----------------------------------------------------------------
+\begin{abstract}
+ 
+\end{abstract}
+% -------------------------------------------------------------
+%% Sweave settings for includegraphics default plot size (Sweave default is 0.8)
+%% notice this must be after begin{document}
+% \setkeys{Gin}{width=0.9\textwidth}
+\setkeys{Gin}{width=0.7\textwidth}
+% ----------------------------------------------------------------
+<<Author:,echo=FALSE>>=
+###################################################
+##                                               ##
+## (c) Andrej Blejec (andrej.blejec@nib.si)      ##
+##                                               ##
+###################################################
+@
+<<initialize,echo=FALSE,results='hide'>>=
+options(width=70)
+library(Hmisc)
+#library(xlsReadWrite)
+@
+
+
+
+
+
+
+
+
+% ----------------------------------------------------------------
+\bibliographystyle{amsplain}
+\bibliography{ab-general}
+\end{document}
+% ----------------------------------------------------------------

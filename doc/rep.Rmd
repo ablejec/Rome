@@ -1,0 +1,27 @@
+# 
+## Author: 
+
+## Abstract
+
+
+ 
+```{r Author:,echo=FALSE}
+###################################################
+##                                               ##
+## (c) Andrej Blejec (andrej.blejec@nib.si)      ##
+##                                               ##
+###################################################
+```
+```{r initialize,echo=FALSE,results='hide'}
+options(width=70)
+library(Hmisc)
+#library(xlsReadWrite)
+```
+
+
+
+
+
+
+
+
